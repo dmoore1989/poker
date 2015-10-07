@@ -25,6 +25,16 @@ class Deck
     cards.shuffle!
   end
 
+  def draw(n = 1)
+    raise DeckError.new "Invalid number of cards" unless n.between?(0,5)
+    draw = []
+    n.times { draw << cards.pop }
+    draw
+  end
 
 
+
+end
+
+class DeckError < StandardError
 end
