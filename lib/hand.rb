@@ -8,7 +8,13 @@ class Hand
   end
 
   def evaluate
-    if full_house?
+    if royal_flush?
+      :royal_flush
+    elsif straight_flush?
+      :straight_flush
+    elsif quads?
+      :quads
+    elsif full_house?
       :full_house
     elsif flush?
       :flush
@@ -62,9 +68,18 @@ class Hand
   end
 
   def full_house?
-    triple = values.select { |value| values.count(value)== 3}
-    pair = values.select { |value| values.count(value)== 2}
+    triple? && one_pair?
+  end
 
-    pair && triple
+  def quads?
+    values.any? { |value| values.count(value) == 4 }
+  end
+
+  def straight_flush?
+    flush? && straight?
+  end
+
+  def royal_flush?
+    values.sort == [10, 11, 12, 13, 14] && flush?
   end
 end
